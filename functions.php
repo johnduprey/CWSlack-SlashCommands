@@ -151,6 +151,39 @@ function cURLPost($url, $header, $request, $postfieldspre)
     return $jsonDecode;
 }
 
+function validate_slack_signature($secret) {
+  // PHP Implementation of Slack signature verification
+  // https://api.slack.com/docs/verifying-requests-from-slack
+
+  // Get PHP Headers for signature verification
+  $header = getallheaders();
+  $slack_signature = $header['X-Slack-Signature'];
+  $slack_ts = $header['X-Slack-Request-Timestamp'];
+
+  // Get POST body
+  $body = file_get_contents('php://input');
+
+  // Get current timestamp and compare against slack timestamp
+  $current_ts = time();
+  if (abs($current_ts - $slack_ts) > 300) {
+    return false;
+  }
+
+  // Build base string for hashing
+  $sig_basestring = 'v0:'.$slack_ts.":".$body;
+
+  // Prepend v0= to hex digest
+  $my_signature = 'v0='.hash_hmac('sha256',$sig_basestring,$secret);
+
+  // Compare with Slack provided signature and return result
+  if (hash_equals($slack_signature,$my_signature)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 function authHeader($company, $publickey, $privatekey)
 {
     $apicompanyname = strtolower($company); //Company name all lower case for api auth.

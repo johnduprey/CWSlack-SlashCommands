@@ -44,6 +44,9 @@ $smtpport = 25; //Set your SMTP port. Defaults: 25 (No security), 465 (SSL), 587
 $smtpfrom = "notifications@domain.com"; //Set to the address all mail should be sent from
 $smtpname = "Company Notifications"; //Set to what you want e-mails to appear as coming from. E.x. Company Notifications <notfications@domain.com>
 
+//global
+$signingsecret = ""; // signing secret from slack api
+
 //cwslack.php
 $slacktoken = "Slack Token Here"; //Set token from the Slack slash command screen.
 $useboards = 1; //Use the board function in new tickets. /t new company|summary vs /t new board|company|summary

@@ -27,7 +27,9 @@ $header_data = authHeader($companyname, $apipublickey, $apiprivatekey);
 // Authorization array, with extra json content-type used in patch commands to change tickets.
 $header_data2 = postHeader($companyname, $apipublickey, $apiprivatekey);
 
-if(empty($_REQUEST['token']) || ($_REQUEST['token'] != $slacktoken)) die("Slack token invalid."); //If Slack token is not correct, kill the connection. This allows only Slack to access the page for security purposes.
+if(!validate_slack_token($signingsecret)) die ("Slack signature does not match.");
+
+#if(empty($_REQUEST['token']) || ($_REQUEST['token'] != $slacktoken)) die("Slack token invalid."); //If Slack token is not correct, kill the connection. This allows only Slack to access the page for security purposes.
 if(empty($_REQUEST['text'])) die("No text provided."); //If there is no text added, kill the connection.
 $exploded = explode(" ",$_REQUEST['text']); //Explode the string attached to the slash command for use in variables.
 

@@ -187,7 +187,7 @@ if(array_key_exists("vendorNotes",$conf) && $conf->vendorNotes!=NULL) //If vendo
 
 $return =array(
     "parse" => "full", //Parse all text.
-    "response_type" => "in_channel", //Send the response in the channel
+    "response_type" => "ephemeral", //Send the response in the channel
     "attachments"=>array(array(
         "fallback" => "Configuration Info for " . $conf->company->identifier . "\\" . $conf->name, //Fallback for notifications
         "title" => "Configuration: <". $connectwise . "/$connectwisebranch/services/system_io/router/openrecord.rails?locale=en_US&recordType=ConfigFv&recid=" . $conf->id . "|" . $conf->name . ">", //Set bolded title text
